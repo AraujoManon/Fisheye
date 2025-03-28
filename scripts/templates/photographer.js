@@ -1,11 +1,7 @@
-// scripts/templates/photographer.js
-
 function photographerTemplate(data) {
-    // On récupère les infos nécessaires du photographe
     const { name, portrait, city, country, tagline, price, id } = data;
     const picture = `assets/photographers/${portrait}`;
   
-    // Méthode qui construit et renvoie le DOM (carte du photographe)
     function getUserCardDOM() {
       const article = document.createElement('article');
   
