@@ -1,15 +1,15 @@
-// scripts/utils/contactForm.js
-
 function displayModal() {
     const modal = document.getElementById('contact_modal');
     modal.style.display = 'block';
     modal.setAttribute('aria-hidden', 'false');
+    // Ici, gérez le focus sur la modale si besoin (par exemple modal.focus())
   }
   
   function closeModal() {
     const modal = document.getElementById('contact_modal');
     modal.style.display = 'none';
     modal.setAttribute('aria-hidden', 'true');
+    // Ici, vous pouvez rétablir le focus sur l'élément déclencheur de la modale
   }
   
   const contactForm = document.getElementById('contact-form');

@@ -3,13 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>Fisheye - Photographe</title>
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
-      rel="stylesheet"
-    />
-    <link href="css/photographer.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/photographer.css" />
   </head>
   <body>
     <header>
@@ -19,21 +15,38 @@
     </header>
 
     <main id="main">
+      <!-- Section du photographe (header) -->
       <section class="photograph-header">
         <div class="photograph-info">
           <h1 id="photographer-name"></h1>
           <p id="photographer-location"></p>
           <p id="photographer-tagline"></p>
         </div>
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
         <div id="photographer-portrait"></div>
       </section>
 
-      <section class="media-gallery"></section>
+      <!-- Section du tri (dropdown) et total likes -->
+      <section class="photograph-filters">
+        <label for="sort-select" class="sort-label">Trier par</label>
+        <select id="sort-select" aria-label="Trier les médias">
+          <option value="popularity">Popularité</option>
+          <option value="title">Titre</option>
+        </select>
+
+        <div class="photograph-likes-price">
+          <span id="total-likes" aria-label="Nombre total de likes">0</span>
+          <img src="assets/icons/heart.png" alt="likes" class="heart-icon" />
+          <span id="daily-price"></span>
+        </div>
+      </section>
+
+      <!-- Galerie de médias -->
+      <section class="media-gallery" role="list"></section>
     </main>
 
     <!-- Modal Contact -->
-    <div id="contact_modal" aria-hidden="true">
+    <div id="contact_modal" aria-hidden="true" role="dialog" aria-labelledby="contact-modal-title">
       <div class="modal">
         <header>
           <h2 id="contact-modal-title">Contactez-moi</h2>
@@ -45,7 +58,7 @@
             tabindex="0"
           />
         </header>
-        <form id="contact-form">
+        <form id="contact-form" aria-label="Contact form">
           <div>
             <label for="firstName">Prénom</label>
             <input id="firstName" name="firstName" type="text" required />
@@ -58,12 +71,25 @@
             <label for="message">Votre message</label>
             <textarea id="message" name="message" required></textarea>
           </div>
-          <button class="contact_button" type="submit">Envoyer</button>
+          <button class="contact_button" type="submit" aria-label="Envoyer le formulaire">
+            Envoyer
+          </button>
         </form>
       </div>
     </div>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" aria-hidden="true" role="dialog" aria-label="image closeup view">
+      <div class="lightbox-content">
+        <button class="lightbox-close" aria-label="Fermer la lightbox">&times;</button>
+        <button class="lightbox-prev" aria-label="Média précédent">&#10094;</button>
+        <div class="lightbox-media-container"></div>
+        <p class="lightbox-media-title"></p>
+        <button class="lightbox-next" aria-label="Média suivant">&#10095;</button>
+      </div>
+    </div>
 
+    <!-- Scripts -->
     <script src="scripts/utils/contactForm.js"></script>
     <script src="scripts/utils/lightbox.js"></script>
     <script src="scripts/pages/photographer.js"></script>

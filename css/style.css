@@ -1,67 +1,68 @@
 body {
-  margin: 0;
-  font-family: "DM Sans", sans-serif;
-  background-color: #fff;
-}
-
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 100px;
-}
-
-.logo {
-  height: 50px;
-}
-
-h1 {
-  color: #901c1c;
-  font-size: 48px;
-  margin: 0;
-}
-
-.photographer_section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
-  margin: 50px 100px;
-}
-
-.photographer_section article {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-}
-
-.photographer_section article a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.photographer_section article img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-bottom: 15px;
-}
-
-.photographer-location {
-  color: #757575;
-  font-weight: bold;
-  margin: 5px 0;
-}
-
-.photographer-tagline {
-  font-style: italic;
-  margin: 5px 0;
-}
-
-.photographer-price {
-  color: #901c1c;
-  margin: 5px 0;
-}
+    margin: 0;
+    font-family: "DM Sans", sans-serif;
+    background-color: #fff;
+  }
+  
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 100px;
+  }
+  
+  .logo {
+    height: 50px;
+  }
+  
+  h1 {
+    color: #901c1c;
+    font-size: 48px;
+    margin: 0;
+  }
+  
+  .photographer_section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin: 50px 100px;
+  }
+  
+  .photographer_section article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .photographer_section article a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .photographer_section article img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .photographer-location {
+    color: #757575;
+    font-weight: bold;
+    margin: 5px 0;
+  }
+  
+  .photographer-tagline {
+    font-style: italic;
+    margin: 5px 0;
+  }
+  
+  .photographer-price {
+    color: #901c1c;
+    margin: 5px 0;
+  }
+  
