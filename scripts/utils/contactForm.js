@@ -1,44 +1,40 @@
-// Export de la fonction photographerTemplate
-export const photographerTemplate = ({
-  name,
-  portrait,
-  city,
-  country,
-  tagline,
-  price,
-  id,
-}) => {
-  const picture = `assets/photographers/${portrait}`;
+(() => {
+  // Récupère la modale de contact
+  const modal = document.getElementById("contact_modal");
 
-  // Fonction utilitaire de création d'éléments avec attributs
-  const createElement = (tag, attributes = {}) =>
-    Object.assign(document.createElement(tag), attributes);
+  // Affiche la modale et met à jour le titre avec le nom du photographe
+  function displayModal() {
+    modal.style.display = "flex";
+    modal.setAttribute("aria-hidden", "false");
+    const photographerName =
+      document.getElementById("photographer-name")?.textContent || "";
+    const modalTitle = modal.querySelector("h2");
+    if (modalTitle) {
+      modalTitle.textContent = `Contactez-moi ${photographerName}`;
+    }
+  }
 
-  const getUserCardDOM = () => {
-    const article = createElement("article", { role: "listitem" });
-    const link = createElement("a", {
-      href: `photographer.html?id=${id}`,
-      ariaLabel: `Accéder à la page de ${name}`,
+  // Cache la modale
+  function closeModal() {
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  // Gestion de l'envoi du formulaire de contact
+  const contactForm = document.getElementById("contact-form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      console.log("Formulaire soumis :", {
+        firstName: document.getElementById("firstName").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value,
+      });
+      closeModal();
     });
-    link.append(
-      createElement("img", { src: picture, alt: `Portrait de ${name}` }),
-      createElement("h2", { textContent: name })
-    );
-    article.append(
-      link,
-      ...[
-        "photographer-location",
-        "photographer-tagline",
-        "photographer-price",
-      ].map((className, i) =>
-        createElement("p", {
-          textContent: [`${city}, ${country}`, tagline, `${price}€/jour`][i],
-          className,
-        })
-      )
-    );
-    return article;
-  };
+  }
 
-  return { name, picture, getUserCardDOM };
-};
+  // Expose les fonctions globalement
+  window.displayModal = displayModal;
+  window.closeModal = closeModal;
+})();

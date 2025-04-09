@@ -1,151 +1,159 @@
-// Mappage des dossiers pour chaque photographe
-const folderMap = {
-  243: "Mimi",
-  930: "Ellie Rose",
-  82: "Tracy",
-  527: "Nabeel",
-  925: "Rhode",
-  195: "Marcel",
-};
+(() => {
+  // Mapping des dossiers par ID photographe
+  const folderMap = {
+    243: "Mimi",
+    930: "Ellie Rose",
+    82: "Tracy",
+    527: "Nabeel",
+    925: "Rhode",
+    195: "Marcel",
+  };
 
-//  Crée un élément média (image ou vidéo)* @param {Object} media - L'objet media* @param {Number} photographerId - L'ID du photographe* @param {Number} index - L'index du média* @returns {HTMLElement} - Elément contenant le média
-export function mediaFactory(media, photographerId, index) {
-  const folderName = folderMap[photographerId] || "Unknown";
-  const container = document.createElement("div");
-  container.className = "media-item";
+  // Crée l'élément média (image ou vidéo) et sa description
+  function mediaFactory(media, photographerId, index) {
+    const folderName = folderMap[photographerId] || "Unknown";
+    let mediaElement = media.image
+      ? Object.assign(document.createElement("img"), {
+          src: `assets/images/${folderName}/${media.image}`,
+          alt: media.title,
+        })
+      : (() => {
+          const vid = document.createElement("video");
+          vid.controls = true;
+          const source = document.createElement("source");
+          source.src = `assets/images/${folderName}/${media.video}`;
+          source.type = "video/mp4";
+          vid.appendChild(source);
+          vid.setAttribute("aria-label", media.title);
+          return vid;
+        })();
 
-  const mediaEl = media.image
-    ? Object.assign(document.createElement("img"), {
-        src: `assets/images/${folderName}/${media.image}`,
-        alt: media.title,
-      })
-    : (() => {
-        const video = document.createElement("video");
-        video.controls = true;
-        const source = document.createElement("source");
-        source.src = `assets/images/${folderName}/${media.video}`;
-        source.type = "video/mp4";
-        video.appendChild(source);
-        video.setAttribute("aria-label", media.title);
-        return video;
-      })();
+    const titleElem = document.createElement("p");
+    titleElem.className = "media-title";
+    titleElem.textContent = media.title;
 
-  const desc = document.createElement("div");
-  desc.className = "media-description";
+    const likesElem = document.createElement("span");
+    likesElem.className = "media-likes";
+    likesElem.textContent = media.likes;
 
-  const title = document.createElement("p");
-  title.className = "media-title";
-  title.textContent = media.title;
+    const heartIcon = Object.assign(document.createElement("img"), {
+      src: "assets/icons/heart.png",
+      alt: "likes",
+      style: "width:15px;cursor:pointer",
+    });
 
-  const likes = document.createElement("span");
-  likes.className = "media-likes";
-  likes.textContent = media.likes;
+    let hasLiked = false;
+    heartIcon.addEventListener("click", () => {
+      if (!hasLiked) {
+        media.likes++;
+        likesElem.textContent = media.likes;
+        hasLiked = true;
+        if (typeof window.updateTotalLikes === "function")
+          window.updateTotalLikes();
+      }
+    });
 
-  const heart = Object.assign(document.createElement("img"), {
-    src: "assets/icons/heart.png",
-    alt: "likes",
-    style: "width:15px; cursor:pointer",
-  });
+    const likesContainer = document.createElement("div");
+    likesContainer.className = "likes-container";
+    likesContainer.append(likesElem, heartIcon);
 
-  let liked = false;
-  heart.addEventListener("click", () => {
-    if (!liked) {
-      media.likes++;
-      likes.textContent = media.likes;
-      liked = true;
-      // Suppression de l'appel à updateTotalLikes car cela ne concerne pas la lightbox
-    }
-  });
+    const descDiv = document.createElement("div");
+    descDiv.className = "media-description";
+    descDiv.append(titleElem, likesContainer);
 
-  const likesContainer = document.createElement("div");
-  likesContainer.className = "likes-container";
-  likesContainer.append(likes, heart);
+    mediaElement.addEventListener("click", () => openLightbox(index));
 
-  desc.append(title, likesContainer);
-  mediaEl.addEventListener("click", () => openLightbox(index));
-  container.append(mediaEl, desc);
-  return container;
-}
-
-//  Ouvre la lightbox et affiche le média à l'index donné* @param {Number} index - L'index du média à afficher
-export function openLightbox(index) {
-  const modal = document.getElementById("lightbox-modal");
-  modal.style.display = "block";
-  modal.classList.remove("hidden");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.setAttribute("aria-hidden", "true");
-  window.currentIndex = index;
-  displayLightboxMedia(index);
-  document.querySelector(".lightbox-close")?.focus();
-}
-
-//  Ferme la lightbox
-export function closeLightbox() {
-  const modal = document.getElementById("lightbox-modal");
-  modal.style.display = "none";
-  modal.setAttribute("aria-hidden", "true");
-  document.body.setAttribute("aria-hidden", "false");
-}
-
-//  Affiche le média dans la lightbox* @param {Number} index - L'index du média à afficher
-export function displayLightboxMedia(index) {
-  const media = window.currentMediaList[index];
-  if (!media) return;
-  const container = document.querySelector(".lightbox-media-container");
-  const title = document.querySelector(".lightbox-media-title");
-  const folder = folderMap[media.photographerId] || "Unknown";
-
-  container.innerHTML = "";
-  title.textContent = media.title;
-
-  if (media.image) {
-    const img = document.createElement("img");
-    img.src = `assets/images/${folder}/${media.image}`;
-    img.alt = media.title;
-    container.appendChild(img);
-  } else if (media.video) {
-    const video = document.createElement("video");
-    video.controls = true;
-    const source = document.createElement("source");
-    source.src = `assets/images/${folder}/${media.video}`;
-    source.type = "video/mp4";
-    video.appendChild(source);
-    container.appendChild(video);
+    const mediaContainer = document.createElement("div");
+    mediaContainer.className = "media-item";
+    mediaContainer.append(mediaElement, descDiv);
+    return mediaContainer;
   }
-}
 
-//  Passe au média suivant dans la lightbox
-export function nextMedia() {
-  window.currentIndex =
-    (window.currentIndex + 1) % window.currentMediaList.length;
-  displayLightboxMedia(window.currentIndex);
-}
+  // Ouvre la lightbox et affiche le média sélectionné
+  function openLightbox(index) {
+    const lightboxModal = document.getElementById("lightbox-modal");
+    lightboxModal.style.display = "block";
+    lightboxModal.classList.remove("hidden");
+    lightboxModal.setAttribute("aria-hidden", "false");
+    document.body.setAttribute("aria-hidden", "true");
+    window.currentIndex = index;
+    displayLightboxMedia(index);
+    const closeButton = document.querySelector(".lightbox-close");
+    if (closeButton) closeButton.focus();
+  }
 
-//  Passe au média précédent dans la lightbox
-export function prevMedia() {
-  window.currentIndex =
-    (window.currentIndex - 1 + window.currentMediaList.length) %
-    window.currentMediaList.length;
-  displayLightboxMedia(window.currentIndex);
-}
+  // Ferme la lightbox
+  function closeLightbox() {
+    const lightboxModal = document.getElementById("lightbox-modal");
+    lightboxModal.style.display = "none";
+    lightboxModal.setAttribute("aria-hidden", "true");
+    document.body.setAttribute("aria-hidden", "false");
+  }
 
-//  Gestion des événements clavier et clic sur la lightbox
-document.addEventListener("DOMContentLoaded", () => {
-  document
-    .querySelector(".lightbox-close")
-    ?.addEventListener("click", closeLightbox);
-  document
-    .querySelector(".lightbox-next")
-    ?.addEventListener("click", nextMedia);
-  document
-    .querySelector(".lightbox-prev")
-    ?.addEventListener("click", prevMedia);
+  // Affiche le média dans la lightbox
+  function displayLightboxMedia(index) {
+    const media = window.currentMediaList[index];
+    if (!media) return;
+    const folderName = folderMap[media.photographerId] || "Unknown";
+    const container = document.querySelector(".lightbox-media-container");
+    const title = document.querySelector(".lightbox-media-title");
+    container.innerHTML = "";
+    title.textContent = media.title;
+    if (media.image) {
+      const img = document.createElement("img");
+      img.src = `assets/images/${folderName}/${media.image}`;
+      img.alt = media.title;
+      container.append(img);
+    } else if (media.video) {
+      const video = document.createElement("video");
+      video.controls = true;
+      const source = document.createElement("source");
+      source.src = `assets/images/${folderName}/${media.video}`;
+      source.type = "video/mp4";
+      video.append(source);
+      container.append(video);
+    }
+  }
 
-  document.addEventListener("keydown", (e) => {
-    if (document.getElementById("lightbox-modal").style.display !== "block")
-      return;
-    if (e.key === "Escape") closeLightbox();
-    else if (e.key === "ArrowRight") nextMedia();
-    else if (e.key === "ArrowLeft") prevMedia();
+  // Affiche le média suivant
+  function nextMedia() {
+    window.currentIndex =
+      window.currentIndex < window.currentMediaList.length - 1
+        ? window.currentIndex + 1
+        : 0;
+    displayLightboxMedia(window.currentIndex);
+  }
+
+  // Affiche le média précédent
+  function prevMedia() {
+    window.currentIndex =
+      window.currentIndex > 0
+        ? window.currentIndex - 1
+        : window.currentMediaList.length - 1;
+    displayLightboxMedia(window.currentIndex);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const closeBtn = document.querySelector(".lightbox-close");
+    const nextBtn = document.querySelector(".lightbox-next");
+    const prevBtn = document.querySelector(".lightbox-prev");
+    if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
+    if (nextBtn) nextBtn.addEventListener("click", nextMedia);
+    if (prevBtn) prevBtn.addEventListener("click", prevMedia);
+    document.addEventListener("keydown", (e) => {
+      const lightboxModal = document.getElementById("lightbox-modal");
+      if (lightboxModal.style.display !== "block") return;
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowRight") nextMedia();
+      else if (e.key === "ArrowLeft") prevMedia();
+    });
   });
-});
+
+  // Rendre les fonctions accessibles globalement
+  window.mediaFactory = mediaFactory;
+  window.openLightbox = openLightbox;
+  window.closeLightbox = closeLightbox;
+  window.displayLightboxMedia = displayLightboxMedia;
+  window.nextMedia = nextMedia;
+  window.prevMedia = prevMedia;
+})();
