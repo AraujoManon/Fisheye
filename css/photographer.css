@@ -1,0 +1,477 @@
+
+/* Réinitialisation basique */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background-color: #fafafa;
+  color: #312e2e;
+}
+
+/* Header & photograph-header */
+header {
+  display: flex;
+  align-items: center;
+  padding: 20px 100px;
+}
+
+.logo {
+  width: 200px;
+}
+
+.photograph-header {
+  border-radius: 5px;
+  background-color: #fafafa;
+  min-height: 300px;
+  margin: 0 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.photograph-info {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.photograph-info h1 {
+  margin-bottom: 10px;
+  color: #d3573c;
+  font-family: "DM Sans";
+  font-size: 64px;
+}
+
+.photograph-info p#photographer-location {
+  font-size: 24px;
+  color: #901c1c;
+  font-family: "DM Sans";
+}
+
+.photograph-info p#photographer-tagline {
+  color: #525252;
+  font-family: "DM Sans";
+  font-size: 18px;
+  margin-top: 19px;
+}
+
+/* Portrait */
+#photographer-portrait img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Bouton Contact */
+.contact_button {
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  width: 170px;
+  height: 70px;
+  margin-top: 26px;
+  border: none;
+  background-color: #901c1c;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* Section de tri - Dropdown personnalisé */
+.photograph-filters {
+  display: flex;
+  margin: 20px 100px;
+}
+
+.sort-block {
+  position: relative;
+  font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+#sort-select {
+  display: none;
+}
+
+/* Bouton principal affichant la sélection */
+.sort-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #901c1c;
+  color: #fff;
+  padding: 20px;
+  width: 170px;
+  border: 1px solid #901c1c;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "DM Sans";
+  font-size: 18px;
+}
+
+.sort-toggle:focus {
+  outline: 2px solid #ffffff80;
+}
+
+/* Flèche */
+.sort-arrow {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/* Liste déroulante personnalisée */
+.dropdown-menu {
+  position: absolute;
+  top: 98%;
+  left: 38.6%;
+  width: 100%;
+  background-color: #901c1c;
+  border: 1px solid #901c1c;
+  border-radius: 5px;
+  z-index: 100;
+  display: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.dropdown-menu.open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 170px;
+  margin-left: -10px;
+  border-radius: 0px 0px 5px 5px;
+  margin-top: -2px;
+
+  margin-left: -10.9px;
+}
+
+/* Options du dropdown */
+.dropdown-option {
+  list-style: none;
+  padding: 14px 20px;
+  background-color: #901c1c;
+  color: #fff;
+  font-family: "DM Sans";
+  font-size: 18px;
+  cursor: pointer;
+  width: 88%;
+  text-align: start;
+  border-top: 1px solid #fff;
+}
+
+/* Bordure bottom pour les deux premières options visibles */
+.dropdown-option.first,
+.dropdown-option.second {
+  text-align: start;
+  margin: 0;
+  border-top: 1px solid white;
+  padding: 20px 20px;
+  width: 90%;
+}
+
+.dropdown-option:hover,
+.dropdown-option:focus {
+  background-color: #b23a3a;
+  outline: none;
+}
+
+/* Galerie de médias */
+.media-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin: 20px 100px 50px;
+}
+
+.media-item {
+  background-color: #fff;
+  border-radius: 5px;
+  width: 350px;
+  height: auto;
+}
+
+.media-item img,
+.media-item video {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.media-description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.media-title {
+  color: #901c1c;
+  font-family: "DM Sans";
+  font-size: 24px;
+  padding: 0px;
+}
+
+.likes-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.media-likes {
+  font-size: 16px;
+}
+
+/* Compteur de likes global */
+.heart-icon-total {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Modal Contact */
+#contact_modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  border-radius: 5px;
+  width: 669px;
+  height: 900px;
+  background-color: #db8876;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 35px;
+  position: relative;
+}
+
+.modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.modal header h2 {
+  font-size: 36px;
+  font-weight: normal;
+  text-align: left;
+}
+
+.close-button {
+  width: 72px;
+  height: auto;
+  cursor: pointer;
+}
+
+/* Formulaire de contact */
+form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+form label {
+  color: #312e2e;
+
+  font-family: "DM Sans";
+  font-size: 36px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 26px;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+form input {
+  width: 599px;
+  height: 68px;
+}
+
+form textarea {
+  width: 599px;
+  height: 170px;
+}
+
+/* Lightbox Modal */
+#lightbox-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 1000;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 86px;
+}
+
+.lightbox-content {
+  position: relative;
+ width: 69%;
+  max-height: 90%;
+  margin: auto;
+  text-align: center;
+}
+
+.lightbox-media-container {
+  max-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-media-container img,
+.lightbox-media-container video {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+/* Boutons Lightbox */
+.lightbox-close {
+  position: absolute;
+  top: -25px;
+  right: -60px;
+  font-size: 80px;
+  color: #901c1c;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 70px;
+  color: #901c1c;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.lightbox-prev {
+  left: -70px;
+}
+
+.lightbox-next {
+  right: -70px;
+}
+
+.lightbox-media-title {
+  margin-top: 12px;
+  font-weight: 400;
+  color: #901c1c;
+  text-align: start;
+  font-size: 24px;
+  font-family: "DM Sans";
+  margin-left: 0;
+}
+
+#dropdownToggle[aria-expanded="true"] {
+  border-radius: 5px 5px 0px 0px;
+}
+.hidden {
+  display: none !important;
+}
+.likes-container img {
+  width: 100%;
+  height: auto;
+}
+
+#contact_modal h2 {
+  color: #000;
+  font-family: "DM Sans";
+  font-size: 64px;
+}
+.modal header {
+  padding: 0;
+}
+.sort-label {
+  color: #000;
+
+  font-family: "DM Sans";
+  font-size: 18px;
+}
+.heart-icon-total {
+  color: #000;
+}
+#daily-price {
+  color: #000;
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 24px;
+}
+
+.likes-total {
+  color: #000;
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 24px;
+  padding: 21px 34px;
+  border-radius: 5px;
+  background: #db8876;
+  width: 376px;
+  height: 89px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  right: 0px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  right: -1110px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.likes-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
